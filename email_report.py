@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.utils import formatdate, make_msgid
 from getpass import getpass
 
 
@@ -22,6 +23,8 @@ def send_email_report(report_text):
     msg["From"] = sender_email
     msg["To"] = recipient_email
     msg["Subject"] = "Removals Volume & Packing Estimate Report"
+    msg["Date"] = formatdate(localtime=True)
+    msg["Message-ID"] = make_msgid()
     msg.attach(MIMEText(report_text, "plain"))
 
     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
