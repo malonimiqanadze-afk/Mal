@@ -8,7 +8,7 @@ def recommend_truck(buffered_volume):
   return "Extra Large / Multiple Vehicles Needed (Large Estate)"
 
 
-def build_report(survey_data):
+def build_report(survey_data, customer_info=None):
   grand_total_volume = sum(data["volume"] for data in survey_data.values())
   buffered_volume = grand_total_volume * 1.15
   total_rooms_counted = len(survey_data)
@@ -24,6 +24,21 @@ def build_report(survey_data):
   lines.append("==================================================")
   lines.append("            REMOVALS ESTIMATE REPORT             ")
   lines.append("==================================================")
+
+  if customer_info:
+    lines.append("\nCustomer Information")
+    lines.append(f"    Full Name     : {customer_info['full_name']}")
+    lines.append(f"    Email         : {customer_info['email']}")
+    if customer_info["phone"]:
+      lines.append(f"    Phone         : {customer_info['phone']}")
+    if customer_info["move_date"]:
+      lines.append(f"    Move Date     : {customer_info['move_date']}")
+    if customer_info["postcode_from"]:
+      lines.append(f"    Moving From   : {customer_info['postcode_from']}")
+    if customer_info["postcode_to"]:
+      lines.append(f"    Moving To     : {customer_info['postcode_to']}")
+    if customer_info["access_notes"]:
+      lines.append(f"    Access Notes  : {customer_info['access_notes']}")
 
   for room_name, data in survey_data.items():
     lines.append(f"\n{room_name} (Subtotal: {data['volume']} FT³)")

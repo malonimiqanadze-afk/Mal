@@ -1,6 +1,7 @@
 from room_data import ROOM_DATABASE
 from calculator import build_report
 from email_report import send_email_report
+from customer_info import collect_customer_info
 
 
 def prompt_int(prompt, default=0):
@@ -41,6 +42,8 @@ def main():
   print("Removals Company Estimate & Volume Calculator")
   print("Answer the prompts for each room you want to survey.\n")
 
+  customer_info = collect_customer_info()
+
   survey_data = {}
   for room_name, items in ROOM_DATABASE.items():
     result = survey_room(room_name, items)
@@ -52,7 +55,7 @@ def main():
     print("\nNo rooms surveyed. Nothing to report.")
     return
 
-  report_text = build_report(survey_data)
+  report_text = build_report(survey_data, customer_info)
   print("\n" + report_text)
 
   send_email_report(report_text)
