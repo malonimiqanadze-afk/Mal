@@ -58,7 +58,7 @@ def main():
   report_text = build_report(survey_data, customer_info)
   print("\n" + report_text)
 
-  send_email_report(report_text)
+  send_email_report(report_text, customer_info["email"])
 
 
 if __name__ == "__main__":

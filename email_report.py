@@ -1,26 +1,32 @@
+import os
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
 from getpass import getpass
 
+from config import load_dotenv
 
-def send_email_report(report_text):
-  answer = input("\nEmail this report? (y/N): ").strip().lower()
-  if answer != "y":
-    return
+load_dotenv()
 
-  sender_email = input("Company Email Address: ").strip()
-  sender_password = getpass("App Password (16-digit): ")
-  recipient_email = input("Recipient Email Address: ").strip()
+# Read from .env / real environment variables; never hardcoded in source.
+SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "quotes@yourcompany.com")
 
-  if not sender_email or not sender_password or not recipient_email:
-    print("Please fill in all email fields. Skipping email.")
+
+def send_email_report(report_text, recipient_email):
+  # Password is never hardcoded in source; read from .env/env var, falling
+  # back to an interactive (hidden) prompt.
+  sender_password = os.environ.get("EMAIL_APP_PASSWORD") or getpass(
+      f"App Password for {SENDER_EMAIL}: "
+  )
+
+  if not sender_password or not recipient_email:
+    print("Missing sender password or recipient email. Skipping email.")
     return
 
   try:
     msg = MIMEMultipart()
-    msg["From"] = sender_email
+    msg["From"] = SENDER_EMAIL
     msg["To"] = recipient_email
     msg["Subject"] = "Removals Volume & Packing Estimate Report"
     msg["Date"] = formatdate(localtime=True)
@@ -28,9 +34,10 @@ def send_email_report(report_text):
     msg.attach(MIMEText(report_text, "plain"))
 
     server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-    server.login(sender_email, sender_password)
-    server.sendmail(sender_email, recipient_email, msg.as_string())
+    server.login(SENDER_EMAIL, sender_password)
+    server.sendmail(SENDER_EMAIL, recipient_email, msg.as_string())
     server.quit()
     print(f"Successfully emailed report to {recipient_email}!")
   except Exception as e:
     print(f"Failed to send email. Error: {e}")
+
