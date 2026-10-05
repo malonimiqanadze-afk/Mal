@@ -8,6 +8,23 @@ def recommend_truck(buffered_volume):
   return "Extra Large / Multiple Vehicles Needed (Large Estate)"
 
 
+def build_room_entry(items_data, quantities, comment=""):
+  """Compute a room's items/volume from item->qty, same formula as the CLI
+  (qty * item volume). Shared by the CLI and the desktop UI."""
+  room_items = {}
+  room_volume = 0
+  for item_key, vol in items_data.items():
+    qty = int(quantities.get(item_key, 0) or 0)
+    if qty > 0:
+      room_items[item_key] = {"qty": qty, "subtotal": qty * vol}
+      room_volume += qty * vol
+
+  if not room_items and not comment:
+    return None
+
+  return {"items": room_items, "volume": room_volume, "comment": comment}
+
+
 def build_report(survey_data, customer_info=None):
   grand_total_volume = sum(data["volume"] for data in survey_data.values())
   buffered_volume = grand_total_volume * 1.15

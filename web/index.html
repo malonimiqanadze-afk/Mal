@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Removals Volume &amp; Packing Calculator</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <section class="card">
+      <div class="inventory-header">
+        <h1>Your inventory</h1>
+        <div class="presets">
+          <button class="clear-btn" id="clear-btn">&#8635; Clear</button>
+        </div>
+      </div>
+
+      <div class="tabs" id="room-tabs"></div>
+      <div class="items-grid" id="item-grid"></div>
+    </section>
+
+    <section class="card">
+      <h2>Save &amp; get your reference</h2>
+      <form id="customer-form">
+        <div class="form-grid">
+          <label>
+            Full name <span class="req">*</span>
+            <input type="text" id="full_name" placeholder="Novak Djokovic" required />
+          </label>
+          <label>
+            Email <span class="req">*</span>
+            <input type="email" id="email" placeholder="NovakDjokovic@gmail.com" required />
+          </label>
+          <label>
+            Phone
+            <input type="text" id="phone" placeholder="+995 555 666 777" />
+          </label>
+          <label>
+            Move date
+            <input type="date" id="move_date" />
+          </label>
+          <label>
+            Moving from (postcode)
+            <input type="text" id="postcode_from" placeholder="94110" />
+          </label>
+          <label>
+            Moving to (postcode)
+            <input type="text" id="postcode_to" placeholder="94612" />
+          </label>
+        </div>
+        <label class="full-width">
+          Access notes (stairs, lift, parking)
+          <textarea id="access_notes" rows="3" placeholder="3rd floor, no lift. Loading bay available until 4pm."></textarea>
+        </label>
+        <button type="submit" id="save-btn">Save quote &amp; get reference</button>
+        <p id="status-message"></p>
+      </form>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
