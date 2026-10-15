@@ -1,6 +1,14 @@
 import os
+import sys
 
-_ENV_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+# When packaged by PyInstaller, look for .env next to the .exe, not inside
+# the temporary extraction folder.
+if getattr(sys, "frozen", False):
+  _BASE_DIR = os.path.dirname(sys.executable)
+else:
+  _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+_ENV_FILE = os.path.join(_BASE_DIR, ".env")
 
 
 def load_dotenv():

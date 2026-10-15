@@ -1,8 +1,18 @@
+import os
+import sys
+
 import webview
 
 from room_data import ROOM_DATABASE
 from calculator import build_report, build_room_entry
 from email_report import send_email_report
+
+
+def resource_path(relative_path):
+  """Resolve a bundled file's path, whether running from source or from
+  a PyInstaller-packaged .exe (which extracts data to sys._MEIPASS)."""
+  base_dir = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+  return os.path.join(base_dir, relative_path)
 
 
 class Api:
@@ -36,7 +46,7 @@ def main():
   api = Api()
   webview.create_window(
       "Removals Volume & Packing Calculator",
-      "web/index.html",
+      resource_path("web/index.html"),
       js_api=api,
       width=1100,
       height=800,
@@ -47,3 +57,6 @@ def main():
 
 if __name__ == "__main__":
   main()
+
+# .\.venv\Scripts\python.exe desktop_app.py
+# .\.venv\Scripts\python.exe -m PyInstaller --noconfirm --onedir --windowed --name "RemovalsCalculator" --add-data "web;web" desktop_app.py
