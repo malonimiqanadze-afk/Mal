@@ -58,5 +58,5 @@ def main():
 if __name__ == "__main__":
   main()
 
-# .\.venv\Scripts\python.exe desktop_app.py
-# .\.venv\Scripts\python.exe -m PyInstaller --noconfirm --onedir --windowed --name "RemovalsCalculator" --add-data "web;web" desktop_app.py
+# .\.venv314\Scripts\python.exe desktop_app.py
+# .\.venv314\Scripts\python.exe -m PyInstaller --clean --noconfirm RemovalsCalculator.spec
